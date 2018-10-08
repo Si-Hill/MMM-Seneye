@@ -2,7 +2,7 @@
 An unofficial <a href="https://www.seneye.com/">Seneye</a> aquarium monitor module for the <a href="https://github.com/MichMich/MagicMirror">MagicMirror</a> project
 
 ## Preview
-![][Screenshot1.png] ![][Screenshot2.png]
+![](Screenshot1.png) ![](Screenshot2.png)
 
 ## Installation
 Clone this respo into your `~/MagicMirror/modules` folder
