@@ -1,3 +1,5 @@
+![GitHub](https://img.shields.io/github/license/Si-Hill/MMM-Seneye.svg?style=for-the-badge) ![GitHub package version](https://img.shields.io/github/package-json/v/Si-Hill/MMM-Seneye.svg?style=for-the-badge) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Si-Hill/MMM-Seneye.svg?style=for-the-badge) ![GitHub repo size in bytes](https://img.shields.io/github/repo-size/Si-Hill/MMM-Seneye.svg?style=for-the-badge)
+
 # MMM-Seneye
 An unofficial <a href="https://www.seneye.com/">Seneye</a> aquarium monitor module for the <a href="https://github.com/MichMich/MagicMirror">MagicMirror</a> project
 
