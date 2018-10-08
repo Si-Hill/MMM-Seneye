@@ -1,0 +1,8 @@
+{
+	"name": "MMM-Seneye",
+	"version": "1.0.1",
+	"description": "An unofficial Seneye aquarium monitor module for the MagicMirror project",
+	"main": "MMM-Seneye.js",
+	"author": "Simon Hill",
+	"licence": "MIT"
+}
