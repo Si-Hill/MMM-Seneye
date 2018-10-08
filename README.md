@@ -48,7 +48,7 @@ MMM-Seneye uses the official <a href='https://api.seneye.com/'>Seneye API</a>
 
 ## To Do
 * Add `node_helper.js`
-* Add customisable temperature suffix
+* <s>Add customisable temperature suffix</s>
 * Add some alert functionality
-* Add logo/title customisation
-* Add custom colour for icons
+* <s>Add logo/title customisation</s>
+* <s>Add custom colour for icons</s>
