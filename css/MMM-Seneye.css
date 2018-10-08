@@ -1,0 +1,26 @@
+.mmm-seneye sup,
+.mmm-seneye sub {
+	vertical-align: baseline;
+	position: relative;
+	top: -0.4em;
+}
+
+.mmm-seneye sub {
+	top: 0.4em;
+}
+
+.mmm-seneye i{
+	margin-left: 5px;
+	color: #00aeef;
+}
+
+.mmm-seneye i.fa-square{
+	color: #000;
+}
+
+.mmm-seneye .footer {
+	padding-top: 10px;
+	font-size: 14px;
+	letter-spacing: 1px;
+	line-height: 18px;
+}

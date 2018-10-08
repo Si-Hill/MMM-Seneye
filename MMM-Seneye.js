@@ -34,6 +34,13 @@ Module.register("MMM-Seneye", {
 		retryDelay: 5000
 	},
 
+	getStyles: function () {
+		return [
+			'modules/MMM-Seneye/css/MMM-Seneye.css',
+			'font-awesome.css'
+		]
+	},
+
 	start: function () {
 		var self = this;
 		var dataRequest = null;
@@ -69,30 +76,31 @@ Module.register("MMM-Seneye", {
 
 		var header = document.createElement("header");
 		header.className = "module-header";
-		header.innerHTML = this.config.title;
+		//header.innerHTML = this.config.title;
+		header.innerHTML = "<img src='modules/MMM-Seneye/img/Seneye-Logo-Blue.png' />";
 		wrapper.appendChild(header);
 
 		var table = document.createElement("table");
 		table.className = "small";
 
 		if (this.dataRequest) {
-			this.addRow(table, "Slide Expires", Math.floor(this.dataRequest.status.slide_expires / 1000 / 60 / 60 / 24), " days");
+			this.addRow(table, "Slide Expires", Math.floor(this.dataRequest.status.slide_expires / 1000 / 60 / 60 / 24), " days", "");
 
-			if (this.config.readings.temperature) this.addRow(table, "Temperature", this.dataRequest.exps.temperature.curr, "&deg;C");
+			if (this.config.readings.temperature) this.addRow(table, "Temperature", this.dataRequest.exps.temperature.curr, "&deg;C", this.dataRequest.exps.temperature.trend);
 
-			if (this.config.readings.ph) this.addRow(table, "pH", this.dataRequest.exps.ph.curr, "");
+			if (this.config.readings.ph) this.addRow(table, "pH", this.dataRequest.exps.ph.curr, "", this.dataRequest.exps.ph.trend);
 
-			if (this.config.readings.nh3) this.addRow(table, "NH3", this.dataRequest.exps.nh3.curr, "");
+			if (this.config.readings.nh3) this.addRow(table, "NH<sub>3</sub>", this.dataRequest.exps.nh3.curr, "", this.dataRequest.exps.nh3.trend);
 
-			if (this.config.readings.nh4) this.addRow(table, "NH4", this.dataRequest.exps.nh4.curr, "");
+			if (this.config.readings.nh4) this.addRow(table, "NH<sub>4</sub><sup>+</sup>", this.dataRequest.exps.nh4.curr, "", this.dataRequest.exps.nh4.trend);
 
-			if (this.config.readings.o2) this.addRow(table, "O2", this.dataRequest.exps.o2.curr, "");
+			if (this.config.readings.o2) this.addRow(table, "O<sub>2</sub>", this.dataRequest.exps.o2.curr, "", this.dataRequest.exps.o2.trend);
 
-			if (this.config.readings.lux) this.addRow(table, "LUX", this.dataRequest.exps.lux.curr, "");
+			if (this.config.readings.lux) this.addRow(table, "LUX", this.dataRequest.exps.lux.curr, "", this.dataRequest.exps.lux.trend);
 
-			if (this.config.readings.par) this.addRow(table, "PAR", this.dataRequest.exps.par.curr, "");
+			if (this.config.readings.par) this.addRow(table, "PAR", this.dataRequest.exps.par.curr, "", this.dataRequest.exps.par.trend);
 
-			if (this.config.readings.kelvin) this.addRow(table, "Kelvin", this.dataRequest.exps.kelvin.curr, "");
+			if (this.config.readings.kelvin) this.addRow(table, "Kelvin", this.dataRequest.exps.kelvin.curr, "", this.dataRequest.exps.kelvin.trend);
 
 			var timestamp = this.dataRequest.status.last_experiment,
 				date = new Date(timestamp * 1000);
@@ -101,11 +109,11 @@ Module.register("MMM-Seneye", {
 			var td = document.createElement("td");
 			td.setAttribute("colspan", "2");
 			td.setAttribute("align", "right");
-			td.setAttribute("style", "font-size:14px;letter-spacing:1px;");
-			td.className = "light";
+			td.className = "footer light";
 			td.innerHTML = "Last reading: " + date.getHours() + ":" +
 				date.getMinutes() + " " + date.getDate() + "/" +
-				(date.getMonth() + 1) + "/" + date.getFullYear();
+				(date.getMonth() + 1) + "/" + date.getFullYear() +
+				"<br /><span style='letter-spacing:0px'>" + this.dataRequest.status.slide_serial + "</span>";
 			row.appendChild(td);
 			table.appendChild(row);
 		}
@@ -115,7 +123,7 @@ Module.register("MMM-Seneye", {
 		return wrapper;
 	},
 
-	addRow: function (table, label, value, suffix) {
+	addRow: function (table, label, value, suffix, trend) {
 		var row = document.createElement("tr");
 		row.className = "normal";
 
@@ -123,10 +131,25 @@ Module.register("MMM-Seneye", {
 		labeltd.className = "bright";
 
 		var valuetd = document.createElement("td");
-		valuetd.className = "light";
+		valuetd.className = "grey";
+
+		switch (trend) {
+			case "0":
+				var icon = "<i class='fa fa-fw fa-pause-circle fa-rotate-90'></i>";
+				break;
+			case "1":
+				var icon = "<i class='fa fa-fw fa-arrow-circle-up'></i>";
+				break;
+			case "-1":
+				var icon = "<i class='fa fa-fw fa-arrow-circle-down'></i>";
+				break;
+			default:
+				var icon = "<i class='fa fa-fw fa-square'></i>";
+				break;
+		}
 
 		labeltd.innerHTML = label;
-		valuetd.innerHTML = value + suffix;
+		valuetd.innerHTML = value + suffix + icon;
 
 		row.appendChild(labeltd);
 		row.appendChild(valuetd);
