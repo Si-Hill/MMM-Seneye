@@ -1,4 +1,4 @@
-/* global Module */
+/* global Module, document,XMLHttpRequest, Log */
 
 /* Magic Mirror
  * Module: MMM-Seneye
@@ -12,7 +12,6 @@
 "use strict";
 
 Module.register("MMM-Seneye", {
-
 	result: {},
 	defaults: {
 		title: "Seneye",
@@ -20,6 +19,9 @@ Module.register("MMM-Seneye", {
 		deviceID: "",
 		email: "",
 		password: "",
+		temperatureSuffix: "C",
+		logo: "blue",
+		color: "#00aeef",
 		readings: {
 			temperature: true,
 			ph: true,
@@ -76,31 +78,45 @@ Module.register("MMM-Seneye", {
 
 		var header = document.createElement("header");
 		header.className = "module-header";
-		//header.innerHTML = this.config.title;
-		header.innerHTML = "<img src='modules/MMM-Seneye/img/Seneye-Logo-Blue.png' />";
+
+		if (this.config.logo == 'blue') {
+			header.innerHTML = "<img src='modules/MMM-Seneye/img/Seneye-Logo-Blue.png' />";
+		} else if (this.config.logo == 'white') {
+			header.innerHTML = "<img src='modules/MMM-Seneye/img/Seneye-Logo-White.png' />";
+		} else if (this.config.logo == 'grey') {
+			header.innerHTML = "<img src='modules/MMM-Seneye/img/Seneye-Logo-Grey.png' />";
+		} else {
+			header.innerHTML = this.config.logo;
+		}
+
 		wrapper.appendChild(header);
 
 		var table = document.createElement("table");
 		table.className = "small";
 
 		if (this.dataRequest) {
-			this.addRow(table, "Slide Expires", Math.floor(this.dataRequest.status.slide_expires / 1000 / 60 / 60 / 24), " days", "");
+			var readings = this.config.readings,
+				experiments = this.dataRequest.exps;
 
-			if (this.config.readings.temperature) this.addRow(table, "Temperature", this.dataRequest.exps.temperature.curr, "&deg;C", this.dataRequest.exps.temperature.trend);
+			var expDiff = this.dataRequest.status.slide_expires - Math.floor(Date.now() / 1000);
 
-			if (this.config.readings.ph) this.addRow(table, "pH", this.dataRequest.exps.ph.curr, "", this.dataRequest.exps.ph.trend);
+			this.addRow(table, "Slide Expires", Math.floor(expDiff / 60 / 60 / 24), " days", "");
 
-			if (this.config.readings.nh3) this.addRow(table, "NH<sub>3</sub>", this.dataRequest.exps.nh3.curr, "", this.dataRequest.exps.nh3.trend);
+			if (readings.temperature) this.addRow(table, "Temperature", experiments.temperature.curr, "&deg;" + this.config.temperatureSuffix, experiments.temperature.trend);
 
-			if (this.config.readings.nh4) this.addRow(table, "NH<sub>4</sub><sup>+</sup>", this.dataRequest.exps.nh4.curr, "", this.dataRequest.exps.nh4.trend);
+			if (readings.ph) this.addRow(table, "pH", experiments.ph.curr, "", experiments.ph.trend);
 
-			if (this.config.readings.o2) this.addRow(table, "O<sub>2</sub>", this.dataRequest.exps.o2.curr, "", this.dataRequest.exps.o2.trend);
+			if (readings.nh3) this.addRow(table, "NH<sub>3</sub>", experiments.nh3.curr, "", experiments.nh3.trend);
 
-			if (this.config.readings.lux) this.addRow(table, "LUX", this.dataRequest.exps.lux.curr, "", this.dataRequest.exps.lux.trend);
+			if (readings.nh4) this.addRow(table, "NH<sub>4</sub><sup>+</sup>", experiments.nh4.curr, "", experiments.nh4.trend);
 
-			if (this.config.readings.par) this.addRow(table, "PAR", this.dataRequest.exps.par.curr, "", this.dataRequest.exps.par.trend);
+			if (readings.o2) this.addRow(table, "O<sub>2</sub>", experiments.o2.curr, "", experiments.o2.trend);
 
-			if (this.config.readings.kelvin) this.addRow(table, "Kelvin", this.dataRequest.exps.kelvin.curr, "", this.dataRequest.exps.kelvin.trend);
+			if (readings.lux) this.addRow(table, "LUX", experiments.lux.curr, "", experiments.lux.trend);
+
+			if (readings.par) this.addRow(table, "PAR", experiments.par.curr, "", experiments.par.trend);
+
+			if (readings.kelvin) this.addRow(table, "Kelvin", experiments.kelvin.curr, "", experiments.kelvin.trend);
 
 			var timestamp = this.dataRequest.status.last_experiment,
 				date = new Date(timestamp * 1000);
@@ -133,18 +149,19 @@ Module.register("MMM-Seneye", {
 		var valuetd = document.createElement("td");
 		valuetd.className = "grey";
 
+		var icon;
 		switch (trend) {
 			case "0":
-				var icon = "<i class='fa fa-fw fa-pause-circle fa-rotate-90'></i>";
+				icon = "<i class='fa fa-fw fa-pause-circle fa-rotate-90' style='color:" + this.config.color + "'></i>";
 				break;
 			case "1":
-				var icon = "<i class='fa fa-fw fa-arrow-circle-up'></i>";
+				icon = "<i class='fa fa-fw fa-arrow-circle-up' style='color:" + this.config.color + "'></i>";
 				break;
 			case "-1":
-				var icon = "<i class='fa fa-fw fa-arrow-circle-down'></i>";
+				icon = "<i class='fa fa-fw fa-arrow-circle-down' style='color:" + this.config.color + "'></i>";
 				break;
 			default:
-				var icon = "<i class='fa fa-fw fa-square'></i>";
+				icon = "<i class='fa fa-fw fa-square'></i>";
 				break;
 		}
 
