@@ -1,6 +1,6 @@
 Subtitle Edit Changelog
 
-1.0.2 (8th October 2018)
+1.1.0 (8th October 2018)
 * NEW:
    * Added logo / title customisation
    * Added icon colour customisation
