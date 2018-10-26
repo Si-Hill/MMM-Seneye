@@ -114,21 +114,21 @@ Module.register("MMM-Seneye", {
 				wrapper.classList.remove("warning");
 			}
 
-			if (readings.temperature) this.addRow(table, "Temperature", experiments.temperature.curr, "&deg;" + this.config.temperatureSuffix, experiments.temperature.trend);
+			if (readings.temperature) this.addRow(table, "Temperature", experiments.temperature.curr, "&deg;" + this.config.temperatureSuffix, experiments.temperature.trend, experiments.temperature.status);
 
-			if (readings.ph) this.addRow(table, "pH", experiments.ph.curr, "", experiments.ph.trend);
+			if (readings.ph) this.addRow(table, "pH", experiments.ph.curr, "", experiments.ph.trend, experiments.ph.status);
 
-			if (readings.nh3) this.addRow(table, "NH<sub>3</sub>", experiments.nh3.curr, "", experiments.nh3.trend);
+			if (readings.nh3) this.addRow(table, "NH<sub>3</sub>", experiments.nh3.curr, "", experiments.nh3.trend, experiments.nh3.status);
 
-			if (readings.nh4) this.addRow(table, "NH<sub>4</sub><sup>+</sup>", experiments.nh4.curr, "", experiments.nh4.trend);
+			if (readings.nh4) this.addRow(table, "NH<sub>4</sub><sup>+</sup>", experiments.nh4.curr, "", experiments.nh4.trend, experiments.nh4.status);
 
-			if (readings.o2) this.addRow(table, "O<sub>2</sub>", experiments.o2.curr, "", experiments.o2.trend);
+			if (readings.o2) this.addRow(table, "O<sub>2</sub>", experiments.o2.curr, "", experiments.o2.trend, experiments.o2.status);
 
-			if (readings.lux) this.addRow(table, "LUX", experiments.lux.curr, "", experiments.lux.trend);
+			if (readings.lux) this.addRow(table, "LUX", experiments.lux.curr, "", "", "");
 
-			if (readings.par) this.addRow(table, "PAR", experiments.par.curr, "", experiments.par.trend);
+			if (readings.par) this.addRow(table, "PAR", experiments.par.curr, "", "", "");
 
-			if (readings.kelvin) this.addRow(table, "Kelvin", experiments.kelvin.curr, "", experiments.kelvin.trend);
+			if (readings.kelvin) this.addRow(table, "Kelvin", experiments.kelvin.curr, "", "", "");
 
 			var timestamp = this.dataRequest.status.last_experiment,
 				date = new Date(timestamp * 1000);
@@ -151,7 +151,7 @@ Module.register("MMM-Seneye", {
 		return wrapper;
 	},
 
-	addRow: function (table, label, value, suffix, trend) {
+	addRow: function (table, label, value, suffix, trend, status) {
 		var row = document.createElement("tr");
 		row.className = "normal";
 
@@ -177,8 +177,16 @@ Module.register("MMM-Seneye", {
 				break;
 		}
 
+		var alert_prefix = "",
+			alert_suffix = "";
+
+		if (status === "-1") {
+			alert_prefix = "<span class='red'>",
+			alert_suffix = "</span>";
+		}
+
 		labeltd.innerHTML = label;
-		valuetd.innerHTML = value + suffix + icon;
+		valuetd.innerHTML = alert_prefix + value + suffix + alert_suffix + icon;
 
 		row.appendChild(labeltd);
 		row.appendChild(valuetd);
