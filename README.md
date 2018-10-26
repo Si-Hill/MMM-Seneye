@@ -4,7 +4,7 @@
 An unofficial <a href="https://www.seneye.com/">Seneye</a> aquarium monitor module for the <a href="https://github.com/MichMich/MagicMirror">MagicMirror</a> project
 
 ## Preview
-![](readme_images/Screenshot1.png) ![](readme_images/Screenshot2.png)
+![](readme_images/Screenshot1.png) ![](readme_images/Screenshot2.png) ![](readme_images/SingleValueWarning.png) ![](readme_images/Expired.png)
 
 ## Installation
 Clone this respo into your `~/MagicMirror/modules` folder
@@ -70,6 +70,6 @@ MMM-Seneye uses the official <a href='https://api.seneye.com/'>Seneye API</a>
 ## To Do
 * Add `node_helper.js`
 * <s>Add customisable temperature suffix</s>
-* Add some alert functionality
+* <s>Add some alert functionality</s>
 * <s>Add logo/title customisation</s>
 * <s>Add custom colour for icons</s>
