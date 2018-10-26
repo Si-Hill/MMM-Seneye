@@ -1,5 +1,10 @@
 Subtitle Edit Changelog
 
+1.2.0 (26th October 2018)
+* NEW:
+   * Added slide expiry warning, red text and flashing border
+   * Added single value warning as red text
+
 1.1.0 (8th October 2018)
 * NEW:
    * Added logo / title customisation
