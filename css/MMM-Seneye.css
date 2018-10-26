@@ -9,12 +9,24 @@
 	top: 0.4em;
 }
 
-.mmm-seneye i{
+.mmm-seneye i {
 	margin-left: 5px;
 }
 
-.mmm-seneye i.fa-square{
+.mmm-seneye i.fa-square {
 	color: #000;
+}
+
+.mmm-seneye .red {
+	color: #e74c3c;
+}
+
+.mmm-seneye.warning {
+	border: 3px solid #000000;
+	border-radius: 10px;
+	padding: 10px;
+	animation: fade 2000ms infinite;
+
 }
 
 .mmm-seneye .footer {
@@ -22,4 +34,18 @@
 	font-size: 14px;
 	letter-spacing: 1px;
 	line-height: 18px;
+}
+
+@-webkit-keyframes fade {
+	from {
+		border-color: #e74c3c;
+	}
+
+	50% {
+		border-color: #000000;
+	}
+
+	to {
+		border-color: #e74c3c;
+	}
 }

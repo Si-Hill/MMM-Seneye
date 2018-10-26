@@ -100,7 +100,19 @@ Module.register("MMM-Seneye", {
 
 			var expDiff = this.dataRequest.status.slide_expires - Math.floor(Date.now() / 1000);
 
-			this.addRow(table, "Slide Expires", Math.floor(expDiff / 60 / 60 / 24), " days", "");
+			if (expDiff < 0) {
+				this.addRow(table, "Slide Expires", "<span class='red'>Expired</span>", "", "");
+				wrapper.classList.add("warning");
+			} else {
+				var plural = '';
+
+				if (expDiff > 1) {
+					plural = 's';
+				}
+
+				this.addRow(table, "Slide Expires", Math.floor(expDiff / 60 / 60 / 24), " day" + plural, "");
+				wrapper.classList.remove("warning");
+			}
 
 			if (readings.temperature) this.addRow(table, "Temperature", experiments.temperature.curr, "&deg;" + this.config.temperatureSuffix, experiments.temperature.trend);
 
